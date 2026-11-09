@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mapa Mental — Arte Contemporânea: Europa e Brasil</title>
+<style>
+:root{
+ --paper:#f7f6f1;--ink:#26313a;--muted:#65717a;--blue:#537b91;--blue2:#e8eff2;
+ --terra:#b96f54;--terra2:#f3e9e3;--gold:#b99b61;--line:#c9c8c0;--white:#fffefa;
+}
+*{box-sizing:border-box}
+body{margin:0;background:#e9e8e2;color:var(--ink);font-family:Inter,Arial,sans-serif}
+.sheet{width:min(1600px,100%);min-height:100vh;margin:0 auto;background:var(--paper);padding:34px 42px 28px;position:relative;overflow:hidden}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:20px}
+.kicker{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);font-weight:700}
+h1{font-family:Georgia,serif;font-size:clamp(28px,3vw,43px);font-weight:500;letter-spacing:-.035em;margin:8px 0 6px}
+.sub{font-size:14px;color:var(--muted);margin:0;max-width:760px;line-height:1.5}
+.legend{display:flex;gap:16px;align-items:center;padding-top:8px;font-size:11px;color:var(--muted);white-space:nowrap}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
+.map{position:relative;margin-top:22px}
+.hub{width:250px;margin:0 auto 18px;text-align:center;position:relative;z-index:2}
+.hub .circle{width:120px;height:120px;border:1px solid var(--gold);border-radius:50%;margin:auto;background:var(--white);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px #26313a0b}
+.hub strong{font-family:Georgia,serif;font-size:18px;line-height:1.12;font-weight:500}
+.hub small{display:block;margin-top:10px;color:var(--muted);font-size:10px;letter-spacing:.12em;text-transform:uppercase}
+.fork{height:30px;position:relative;margin:0 9%}
+.fork:before{content:"";position:absolute;left:50%;top:0;height:13px;border-left:1.5px solid var(--gold)}
+.fork:after{content:"";position:absolute;left:24%;right:24%;top:13px;border-top:1.5px solid var(--gold)}
+.fork span:before,.fork span:after{content:"";position:absolute;top:13px;height:17px;border-left:1.5px solid var(--gold)}
+.fork span:before{left:24%}.fork span:after{right:24%}
+.territories{display:grid;grid-template-columns:1fr 1fr;gap:34px;position:relative}
+.territory{padding:16px 18px 18px;border-radius:22px;position:relative;z-index:1}
+.europe{background:var(--blue2);border:1px solid #d7e2e7}
+.brazil{background:var(--terra2);border:1px solid #ead8ce}
+.region-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.region-head h2{font-size:14px;letter-spacing:.12em;text-transform:uppercase;margin:0;font-weight:800}
+.europe h2{color:var(--blue)}.brazil h2{color:var(--terra)}
+.region-head small{font-size:10px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+.nodes{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.node{background:var(--white);border-radius:14px;overflow:hidden;display:grid;grid-template-columns:104px 1fr;min-height:145px;border:1px solid #e9e6dd;box-shadow:0 3px 12px #26313a08;transition:transform .18s,box-shadow .18s}
+.node:hover{transform:translateY(-2px);box-shadow:0 8px 18px #26313a12}
+.node img{width:104px;height:100%;min-height:145px;object-fit:cover;background:#e6e3dc}
+.info{padding:10px 10px 8px;min-width:0}
+.tag{font-size:9px;text-transform:uppercase;letter-spacing:.11em;font-weight:800;margin-bottom:5px}
+.europe .tag{color:var(--blue)}.brazil .tag{color:var(--terra)}
+.artist{font-size:12px;font-weight:800;line-height:1.2;margin:0 0 4px}
+.work{font-family:Georgia,serif;font-size:12px;line-height:1.2;margin:0 0 5px}
+.year{font-family:Arial,sans-serif;font-size:10px;color:var(--muted);font-weight:700}
+.note{font-size:10px;line-height:1.35;color:#56616a;margin:5px 0 7px}
+.view{font-size:9px;font-weight:800;letter-spacing:.08em;text-decoration:none;color:var(--ink);border-bottom:1px solid var(--gold);padding-bottom:2px}
+.bridges{margin:16px 0 0;background:var(--white);border:1px solid #e4dfd2;border-radius:16px;padding:12px 16px}
+.bridges h3{margin:0 0 9px;text-align:center;text-transform:uppercase;letter-spacing:.16em;font-size:10px;color:var(--gold)}
+.bridge-list{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.bridge{font-size:11px;line-height:1.35;padding:8px 10px;border-left:2px solid var(--gold);background:#faf9f5;border-radius:0 8px 8px 0}
+.bridge b{display:block;font-size:11px;margin-bottom:3px}
+.bridge span{color:var(--muted)}
+.footer{display:flex;justify-content:space-between;gap:15px;margin-top:12px;color:var(--muted);font-size:9px}
+.footer a{color:inherit}
+@media(max-width:1000px){
+ .sheet{padding:24px 18px}.territories{gap:14px}.territory{padding:12px}
+ .nodes{grid-template-columns:1fr}.node{min-height:125px}.node img{min-height:125px}
+}
+@media(max-width:680px){
+ .top{display:block}.legend{margin-top:12px}.territories{grid-template-columns:1fr}
+ .fork{display:none}.hub{margin-bottom:16px}.bridge-list{grid-template-columns:1fr}
+ .territory{border-radius:16px}.node{grid-template-columns:100px 1fr}
+}
+@media print{
+ body{background:white}.sheet{width:100%;min-height:0;padding:22px 28px}
+ .node{break-inside:avoid}.node:hover{transform:none}
+}
+</style>
+</head>
+<body>
+<main class="sheet">
+ <header class="top">
+  <div>
+   <div class="kicker">Literatura & Arte · Mapa mental digital</div>
+   <h1>Arte contemporânea: Europa ↔ Brasil</h1>
+   <p class="sub">Diferentes contextos, novas linguagens. Uma rede de movimentos, artistas e obras que questionam o mundo e expandem o que pode ser arte.</p>
+  </div>
+  <div class="legend">
+   <span><i class="dot" style="background:var(--blue)"></i>Europa</span>
+   <span><i class="dot" style="background:var(--terra)"></i>Brasil</span>
+   <span><i class="dot" style="background:var(--gold)"></i>Conexões</span>
+  </div>
+ </header>
+
+ <section class="map">
+  <div class="hub">
+   <div class="circle"><strong>ARTE<br>CONTEMPORÂNEA</strong></div>
+   <small>ideia · matéria · corpo · sociedade</small>
+  </div>
+  <div class="fork"><span></span></div>
+
+  <div class="territories">
+   <section class="territory europe">
+    <div class="region-head"><h2>01 · Europa</h2><small>Rupturas & questionamentos</small></div>
+    <div class="nodes">
+     <article class="node">
+      <a href="https://artsandculture.google.com/asset/venus-of-the-rags-0053/lAFaYMbp8-HHXg" target="_blank" rel="noopener"><img src="https://arthistoryarchive.com/arthistory/artepovera/images/MichelangeloPistoletto-Venus-of-the-Rags-1967.jpg" alt="Vênus dos Trapos, de Pistoletto"></a>
+      <div class="info"><div class="tag">Arte Povera · Itália</div><p class="artist">Michelangelo Pistoletto</p><p class="work">Vênus dos Trapos</p><span class="year">1967</span><p class="note">Trapos e materiais cotidianos criticam o consumo e a ideia de valor na arte.</p><a class="view" href="https://artsandculture.google.com/asset/venus-of-the-rags-0053/lAFaYMbp8-HHXg" target="_blank" rel="noopener">VER OBRA ↗</a></div>
+     </article>
+     <article class="node">
+      <a href="https://bigother.com/2025/08/16/dead-hare-explains-by-chris-vaughan/" target="_blank" rel="noopener"><img src="https://i0.wp.com/bigother.com/wp-content/uploads/2025/08/Joseph-Beuyss-How-to-Explain-Pictures-to-a-Dead-Hare-November-26-1965-at-the-Schmela-Gallery-Dusseldorf-Hunsruckenstrase-photographed-by-Ute-Klophaus.jpeg?fit=1536%2C1087&ssl=1" alt="Joseph Beuys em performance"></a>
+      <div class="info"><div class="tag">Arte Conceitual / Fluxus</div><p class="artist">Joseph Beuys</p><p class="work">Como Explicar Quadros a uma Lebre Morta</p><span class="year">1965</span><p class="note">Ação e ideia ganham destaque; arte e vida se aproximam.</p><a class="view" href="https://bigother.com/2025/08/16/dead-hare-explains-by-chris-vaughan/" target="_blank" rel="noopener">VER REGISTRO ↗</a></div>
+     </article>
+     <article class="node">
+      <a href="https://www.thecollector.com/why-did-damien-hirst-put-a-shark-in-a-tank/" target="_blank" rel="noopener"><img src="https://cdn.thecollector.com/wp-content/uploads/2021/04/unique-art-damien-hirst-physical-impossibility-sculpture-e1619562971169.jpg?quality=55&width=1400" alt="A escultura do tubarão de Damien Hirst"></a>
+      <div class="info"><div class="tag">Young British Artists · Reino Unido</div><p class="artist">Damien Hirst</p><p class="work">A Impossibilidade Física da Morte na Mente de Alguém Vivo</p><span class="year">1991</span><p class="note">Choque visual e provocação levam o público a pensar sobre a morte.</p><a class="view" href="https://www.thecollector.com/why-did-damien-hirst-put-a-shark-in-a-tank/" target="_blank" rel="noopener">VER OBRA ↗</a></div>
+     </article>
+     <article class="node">
+      <a href="https://focusonbelgium.be/en/culture/banksy-genius-or-vandal" target="_blank" rel="noopener"><img src="https://focusonbelgium.be/sites/default/files/banksy-manifestant-fleur-royal-muse-961x600.jpg" alt="O Lançador de Flores, de Banksy"></a>
+      <div class="info"><div class="tag">Arte Urbana / Ativismo</div><p class="artist">Banksy</p><p class="work">O Lançador de Flores</p><span class="year">2003</span><p class="note">Intervenção urbana usa ironia e imagem para questionar violência e conflito.</p><a class="view" href="https://focusonbelgium.be/en/culture/banksy-genius-or-vandal" target="_blank" rel="noopener">VER OBRA ↗</a></div>
+     </article>
+    </div>
+   </section>
+
+   <section class="territory brazil">
+    <div class="region-head"><h2>02 · Brasil</h2><small>Corpo, política & identidade</small></div>
+    <div class="nodes">
+     <article class="node">
+      <a href="https://masp.org.br/acervo/obra/bicho" target="_blank" rel="noopener"><img src="https://cdn.kastatic.org/ka-perseus-images/301b3b959813962d33940469fd50b8ce740ce88d.jpg" alt="Bicho, de Lygia Clark"></a>
+      <div class="info"><div class="tag">Neoconcretismo · anos 1950/60</div><p class="artist">Lygia Clark</p><p class="work">Série Bichos</p><span class="year">1960</span><p class="note">Esculturas articuláveis convidam o público a tocar e transformar a obra.</p><a class="view" href="https://masp.org.br/acervo/obra/bicho" target="_blank" rel="noopener">VER OBRA ↗</a></div>
+     </article>
+     <article class="node">
+      <a href="https://www.artsy.net/artwork/cildo-meireles-insertions-into-ideological-circuits-coca-cola-project" target="_blank" rel="noopener"><img src="https://d7hftxdivxxvm.cloudfront.net/?height=1076&quality=85&resize_to=fit&src=https%3A%2F%2Fd32dm0rphc51dk.cloudfront.net%2FayyjqDrXDSK3oecGXyeptw%2Fnormalized.jpg&width=1600" alt="Projeto Coca-Cola, de Cildo Meireles"></a>
+      <div class="info"><div class="tag">Arte Conceitual / Resistência</div><p class="artist">Cildo Meireles</p><p class="work">Inserções em Circuitos Ideológicos: Projeto Coca-Cola</p><span class="year">1970</span><p class="note">Mensagens críticas são inseridas em garrafas e devolvidas à circulação.</p><a class="view" href="https://www.artsy.net/artwork/cildo-meireles-insertions-into-ideological-circuits-coca-cola-project" target="_blank" rel="noopener">VER OBRA ↗</a></div>
+     </article>
+     <article class="node">
+      <a href="https://beatrizmilhazes.com/?page_id=99" target="_blank" rel="noopener"><img src="https://andredorigo.com.br/wp-content/uploads/2021/03/Abertura-O-Magico_2001-1024x576.jpg" alt="O Mágico, de Beatriz Milhazes"></a>
+      <div class="info"><div class="tag">Geração 80</div><p class="artist">Beatriz Milhazes</p><p class="work">O Mágico</p><span class="year">2001</span><p class="note">Pintura de cores intensas, formas ornamentais e retomada do gesto pictórico.</p><a class="view" href="https://beatrizmilhazes.com/?page_id=99" target="_blank" rel="noopener">VER OBRA ↗</a></div>
+     </article>
+     <article class="node">
+      <a href="https://www.sarasotaartmuseum.org/vik-muniz/" target="_blank" rel="noopener"><img src="https://i0.wp.com/www.sarasotaartmuseum.org/wp-content/uploads/2019/12/Marat_VikMuniz_1024x768.jpg?fit=1024%2C768&ssl=1" alt="Imagem da série Imagens de Lixo, de Vik Muniz"></a>
+      <div class="info"><div class="tag">Contemporaneidade plural / memória</div><p class="artist">Vik Muniz</p><p class="work">Imagens de Lixo</p><span class="year">2008</span><p class="note">Materiais descartados tornam-se imagens e revelam questões sociais e ambientais.</p><a class="view" href="https://www.sarasotaartmuseum.org/vik-muniz/" target="_blank" rel="noopener">VER SÉRIE ↗</a></div>
+     </article>
+    </div>
+   </section>
+  </div>
+
+  <section class="bridges">
+   <h3>As pontes · conexões entre os continentes</h3>
+   <div class="bridge-list">
+    <div class="bridge"><b>Pistoletto ↔ Vik Muniz</b><span>Materiais descartados e crítica à sociedade de consumo.</span></div>
+    <div class="bridge"><b>Beuys ↔ Lygia Clark</b><span>Arte como experiência: ação, participação e relação com o público.</span></div>
+    <div class="bridge"><b>Banksy ↔ Cildo Meireles</b><span>Intervenção crítica: a arte leva mensagens sociais e políticas ao cotidiano.</span></div>
+   </div>
+  </section>
+  <footer class="footer">
+   <span>Imagens e links direcionam a páginas de acervos, galerias e registros das obras.</span>
+   <span>Mapa mental · Europa + Brasil</span>
+  </footer>
+ </section>
+</main>
+</body>
+</html>
